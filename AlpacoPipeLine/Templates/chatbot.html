@@ -1,0 +1,168 @@
+<!-- chatbot.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            font-family: "Roboto", sans-serif;
+            background-color: #a85807;
+            padding: 3px;
+            text-align: center;
+        }
+        .header h1{
+            color: #ffffff;
+        }
+
+        .chat {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .user {
+            text-align: right;
+        }
+
+        .bot {
+            text-align: left;
+        }
+
+        .message {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        .user .message {
+            background-color: #ffff00;
+        }
+
+        .bot .message {
+            background-color: #ccffe5;
+        }
+
+        .footer {
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+
+        .input {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+
+        .button {
+            width: 15%;
+            padding: 10px;
+            border: none;
+            background-color: #8080ff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>어휘 사전 챗봇</h1>
+        </div>
+        <div class="chat" id="chat">
+            
+        </div>
+        <div class="footer">
+            
+                <input type="text" name="request" class="input" id="input" placeholder="여기에 궁금한 단어를 입력해 주세요.">
+                <button type="submit" class="button" id="button">보내기</button>
+            
+        </div>
+    </div>
+    <script>
+        
+         // 스크롤을 항상 아래로 유지하는 함수
+         function scrollDown() {
+             var chat = document.getElementById("chat");
+             chat.scrollTop = chat.scrollHeight;
+         }
+
+         // 챗봇의 응답을 화면에 표시하는 함수
+         function showBotResponse(response) {
+             var chat = document.getElementById("chat");
+             var botDiv = document.createElement("div");
+             botDiv.className = "bot";
+             var botMsg = document.createElement("div");
+             botMsg.className = "message";
+             botMsg.innerHTML = response;
+             botDiv.appendChild(botMsg);
+             chat.appendChild(botDiv);
+             scrollDown();
+         }
+
+         // 사용자의 입력을 화면에 표시하는 함수
+         function showUserRequest(request) {
+             var chat = document.getElementById("chat");
+             var userDiv = document.createElement("div");
+             userDiv.className = "user";
+             var userMsg = document.createElement("div");
+             userMsg.className = "message";
+             userMsg.innerHTML = request;
+             userDiv.appendChild(userMsg);
+             chat.appendChild(userDiv);
+             scrollDown();
+         }
+
+         // 버튼 클릭 이벤트를 처리하는 함수
+         function handleClick(event) {
+
+              // 입력값을 가져옴
+              var input = document.getElementById("input");
+              var request = input.value;
+
+              // 입력값이 비어있지 않으면
+              if (request) {
+
+                  // 입력값을 화면에 표시함
+                  showUserRequest(request);
+
+                  // 입력값을 서버에 전송함
+                  fetch("/chat", {
+                      method: "POST",
+                      headers: {
+                          "Content-Type": "application/x-www-form-urlencoded"
+                      },
+                      body: `request=${request}`
+                  })
+                  .then(response => response.json()) // 응답을 JSON으로 변환함
+                  .then(data => {
+
+                      // 챗봇의 응답을 화면에 표시함
+                      showBotResponse(data.result);
+
+                  })
+                  .catch(error => {
+
+                      // 에러가 발생하면 콘솔에 출력함
+                      console.error(error);
+
+                  });
+
+                  // 입력값을 초기화함
+                  input.value = "";
+              }
+         }
+
+         // 버튼에 이벤트 리스너를 추가함
+         var button = document.getElementById("button");
+         button.addEventListener("click", handleClick);
+    </script>
+</body>
+</html>

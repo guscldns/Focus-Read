@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            table, th, td{
+                border : 1px solid black;
+            }
+        </style>
+        <meta charset="UTF-8">
+        <title>사전샘플</title>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>request</th>
+                <th>rule</th>
+                <th>response</th>
+                <th>response2</th>
+            </tr>
+            {% for row in result_table%}
+            <tr>
+                <td>{{row.request}}</td>
+                <td>{{row.rule}}</td>
+                <td>{{row.response}}</td>
+                <td>{{row.response2}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
