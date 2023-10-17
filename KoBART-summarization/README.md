@@ -2,9 +2,10 @@
 
 ## Load KoBART summarization
 - seujung의 KoBART-summarization
-!git clone https://github.com/seujung/KoBART-summarization
-
 ```
+!git clone https://github.com/seujung/KoBART-summarization
+```
+
 ## Requirements
 ```
 torch==2.0.1
@@ -14,13 +15,15 @@ lightning==2.0.8
 streamlit==1.26.0
 wandb==0.15.9
 ```
+
 ## Data
-- 문학 데이터 활용
-- 
+- AI Hub '요약문 및 레포트 생성 데이터' 문학 데이터 활용
+  https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=582
+- 생성형 AI 서비스들을 이용하여 생성 후 검수한 자체 요약문 데이터
 - tsv 형태로 데이터를 변환
 - Data 구조
-    - Train Data : 34,242
-    - Test Data : 8,501
+    - Train Data : 9,905
+    - Test Data : 1,276
 
 
 ## How to Train
@@ -46,10 +49,11 @@ pip install -r requirements.txt
    - kobart_summary 디렉토리에 모델 저장
    - hparams: logs 하위 디렉토리에서 사용할 모델의 버전 골라 hparams.yaml set
    - model_binary: logs 하위 디렉토리에서 사용할 체크포인트 골라 *.ckpt set
-   - 
+```
 !python get_model_binary.py --hparams /home/alpaco/hw/KoBART-summarization/lightning_logs/version_60/hparams.yaml --model_binary checkpoint/last-v6.ckpt
+```
 
-## 인퍼런스
+## Inference
 ```
 import torch
 from transformers import PreTrainedTokenizerFast
