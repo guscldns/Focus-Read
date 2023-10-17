@@ -24,7 +24,7 @@ data   | explanation |
 
 
 ## OCR 
-+ ### clovaai/donut
++ ### [clovaai/donut 모델 Fine-tuning](https://github.com/clovaai/donut)
   + How to train   
     ```c
     ! python /home/alpaco/final_Project/donut/train.py --config /home/alpaco/final_Project/donut/config/train_cord.yaml \
@@ -68,7 +68,7 @@ data   | explanation |
 ---
 
 ## summary 
-+ ###  KoBART-summarization 모델 fine-tunning
++ ###  [KoBART-summarization 모델 Fine-tuning](https://github.com/seujung/KoBART-summarization )
   + How to train  
      ```c
     !CUDA_VISIBLE_DEVICES=0 python /home/alpaco/hw/KoBART-summarization/train.py --gradient_clip_val 1.0 \
@@ -81,7 +81,7 @@ data   | explanation |
         --batch_size 26 \
         --num_workers 4
     ```
-
+---
 ## Keyword
 +  KeyBERT
    + How to used
