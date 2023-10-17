@@ -1,0 +1,7 @@
+pandas
+torch==2.0.1
+transformers==4.32.1
+tokenizers==0.13.3
+lightning==2.0.8
+streamlit==1.26.0
+wandb==0.15.9

@@ -1,0 +1,11 @@
+accelerator: gpu
+batch_size: 26
+checkpoint: checkpoint
+gradient_clip_val: 1.0
+lr: 3.0e-05
+max_epochs: 1001
+max_len: 512
+num_gpus: 1
+num_workers: 4
+test_file: /home/alpaco/hw/KoBART-summarization/data/test.tsv
+train_file: /home/alpaco/hw/KoBART-summarization/data/train.tsv
