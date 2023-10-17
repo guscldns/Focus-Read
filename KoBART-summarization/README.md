@@ -1,42 +1,8 @@
-# KoBART-summarization
+# FocusRead-summarization
 
-## Load KoBART
-- huggingface.co에 있는 binary를 활용
-  - https://huggingface.co/gogamza/kobart-base-v1
-
-## Download binary
-```python
-import torch
-from transformers import PreTrainedTokenizerFast
-from transformers import BartForConditionalGeneration
-
-tokenizer = PreTrainedTokenizerFast.from_pretrained('digit82/kobart-summarization')
-model = BartForConditionalGeneration.from_pretrained('digit82/kobart-summarization')
-
-text = """
-1일 오후 9시까지 최소 20만3220명이 코로나19에 신규 확진됐다. 또다시 동시간대 최다 기록으로, 사상 처음 20만명대에 진입했다.
-방역 당국과 서울시 등 각 지방자치단체에 따르면 이날 0시부터 오후 9시까지 전국 신규 확진자는 총 20만3220명으로 집계됐다.
-국내 신규 확진자 수가 20만명대를 넘어선 것은 이번이 처음이다.
-동시간대 최다 기록은 지난 23일 오후 9시 기준 16만1389명이었는데, 이를 무려 4만1831명이나 웃돌았다. 전날 같은 시간 기록한 13만3481명보다도 6만9739명 많다.
-확진자 폭증은 3시간 전인 오후 6시 집계에서도 예견됐다.
-오후 6시까지 최소 17만8603명이 신규 확진돼 동시간대 최다 기록(24일 13만8419명)을 갈아치운 데 이어 이미 직전 0시 기준 역대 최다 기록도 넘어섰다. 역대 최다 기록은 지난 23일 0시 기준 17만1451명이었다.
-17개 지자체별로 보면 서울 4만6938명, 경기 6만7322명, 인천 1만985명 등 수도권이 12만5245명으로 전체의 61.6%를 차지했다. 서울과 경기는 모두 동시간대 기준 최다로, 처음으로 각각 4만명과 6만명을 넘어섰다.
-비수도권에서는 7만7975명(38.3%)이 발생했다. 제주를 제외한 나머지 지역에서 모두 동시간대 최다를 새로 썼다.
-부산 1만890명, 경남 9909명, 대구 6900명, 경북 6977명, 충남 5900명, 대전 5292명, 전북 5150명, 울산 5141명, 광주 5130명, 전남 4996명, 강원 4932명, 충북 3845명, 제주 1513명, 세종 1400명이다.
-집계를 마감하는 자정까지 시간이 남아있는 만큼 2일 0시 기준으로 발표될 신규 확진자 수는 이보다 더 늘어날 수 있다. 이에 따라 최종 집계되는 확진자 수는 21만명 안팎을 기록할 수 있을 전망이다.
-한편 전날 하루 선별진료소에서 이뤄진 검사는 70만8763건으로 검사 양성률은 40.5%다. 양성률이 40%를 넘은 것은 이번이 처음이다. 확산세가 계속 거세질 수 있다는 얘기다.
-이날 0시 기준 신규 확진자는 13만8993명이었다. 이틀 연속 13만명대를 이어갔다.
-"""
-
-text = text.replace('\n', ' ')
-
-raw_input_ids = tokenizer.encode(text)
-input_ids = [tokenizer.bos_token_id] + raw_input_ids + [tokenizer.eos_token_id]
-
-summary_ids = model.generate(torch.tensor([input_ids]),  num_beams=4,  max_length=512,  eos_token_id=1)
-tokenizer.decode(summary_ids.squeeze().tolist(), skip_special_tokens=True)
-
-'1일 0 9시까지 최소 20만3220명이 코로나19에 신규 확진되어 역대 최다 기록을 갈아치웠다.'
+## Load KoBART summarization
+- seujung의 KoBART-summarization
+!git clone https://github.com/seujung/KoBART-summarization
 
 ```
 ## Requirements
@@ -49,20 +15,12 @@ streamlit==1.26.0
 wandb==0.15.9
 ```
 ## Data
-- [Dacon 한국어 문서 생성요약 AI 경진대회](https://dacon.io/competitions/official/235673/overview/) 의 학습 데이터를 활용함
-- 학습 데이터에서 임의로 Train / Test 데이터를 생성함
-- 데이터 탐색에 용이하게 tsv 형태로 데이터를 변환함
+- 문학 데이터 활용
+- 
+- tsv 형태로 데이터를 변환
 - Data 구조
     - Train Data : 34,242
     - Test Data : 8,501
-- default로 data/train.tsv, data/test.tsv 형태로 저장함
-  
-| news  | summary |
-|-------|--------:|
-| 뉴스원문| 요약문 |  
-
-- 참조 데이터
-  - AIHUB 문서 요약 데이터 (https://aihub.or.kr/aidata/8054)
 
 
 ## How to Train
@@ -70,65 +28,50 @@ wandb==0.15.9
 ```bash
 pip install -r requirements.txt
 
-[use gpu]
-python train.py --gradient_clip_val 1.0 \
-                --max_epochs 2 \
+!CUDA_VISIBLE_DEVICES=0 python /home/alpaco/hw/KoBART-summarization/train.py --gradient_clip_val 1.0 \
+                --train_file '/home/alpaco/hw/KoBART-summarization/data/train.tsv' \
+                --test_file '/home/alpaco/hw/KoBART-summarization/data/test.tsv' \
+                --max_epochs 201 \
                 --checkpoint checkpoint \
                 --accelerator gpu \
-                --num_gpus 4 \
-                --batch_size 32 \
-                --num_workers 4
-```
-## Generation Sample
-| ||Text|
-|-------|:--------|:--------|
-|1|Label|태왕의 '성당 태왕아너스 메트로'모델하우스는 초역세권 입지와 변화하는 라이프스타일에 맞춘 혁신평면으로 오픈 당일부터 관람객의 줄이 이어지면서 관람객의 호평을 받았다.|
-|1|koBART|아파트 분양시장이 실수요자 중심으로 바뀌면서 초역세권 입지와 변화하는 라이프스타일에 맞춘 혁신평면이 아파트 선택에 미치는 영향력이 커지고 있는 가운데, 태왕이 지난 22일 공개한 ‘성당 태왕아너스 메트로’ 모델하우스를 찾은 방문객들은 합리적인 분양가와 중도금무이자 등의 분양조건도 실수요자에게 유리해 높은 청약경쟁률을 기대했다.|
-
-| ||Text|
-|-------|:--------|:--------|
-|2|Label|광주지방국세청은 '상생하고 포용하는 세정구현을 위한' 혁신성장 기업 세정지원 설명회를 열어 여러 세정지원 제도를 안내하고 기업 현장의 애로, 건의사항을 경청하며 기업 맞춤형 세정서비스를 제공할 것을 약속했다.|
-|2|koBART|17일 광주지방국세청은 정부광주지방합동청사 3층 세미나실에서 혁신성장 경제정책을 세정차원에서 뒷받침하기 위해 다양한 세정지원 제도를 안내하는 동시에 기업 현장의 애로·건의사항을 경청하기 위해 ‘상생하고 포용하는 세정구현을 위한’ 혁신성장 기업 세정지원 설명회를 열어 주목을 끌었다.'|
-
-| ||Text|
-|-------|:--------|:--------|
-|3|Label|신용보증기금 등 3개 기관은 31일 서울 중구 기업은행 본점에서 최근 경영에 어려움을 겪는 소상공인 등의 금융비용 부담을 줄이고 서민경제에 활력을 주기 위해 '소상공인. 자영업자 특별 금융지원 업무협약'을 체결했다고 전했으며 지원대상은 필요한 조건을 갖춘 수출중소기업, 유망창업기업 등이다.|
-|3|koBART|최근 경영애로를 겪고 있는 소상공인과 자영업자의 금융비용 부담을 완화하고 서민경제의 활력을 제고하기 위해 신용보증기금·기술보증기금·신용보증재단 중앙회·기업은행은 31일 서울 중구 기업은행 본점에서 ‘소상공인·자영업자 특별 금융지원 업무협약’을 체결했다.|
-
-
-
-## Model Performance
-- Test Data 기준으로 rouge score를 산출함
-- Score 산출 방법은 Dacon 한국어 문서 생성요약 AI 경진대회 metric을 활용함
-  
-| | rouge-1 |rouge-2|rouge-l|
-|-------|--------:|--------:|--------:|
-| Precision| 0.515 | 0.351|0.415|
-| Recall| 0.538| 0.359|0.440|
-| F1| 0.505| 0.340|0.415|
-
-## Demo
-- 학습한 model binary 추출 작업이 필요함
-   - pytorch-lightning binary --> huggingface binary로 추출 작업 필요
-   - hparams의 경우에는 <b>./logs/tb_logs/default/version_0/hparams.yaml</b> 파일을 활용
-   - model_binary 의 경우에는 <b>./logs/kobart_summary-model_chp</b> 안에 있는 .ckpt 파일을 활용
-   - 변환 코드를 실행하면 <b>./kobart_summary</b> 에 model binary 가 추출 됨
-  
-```
- python get_model_binary.py --model_binary model_binary_path
+                --num_gpus 1 \
+                --lr 0.00005 \
+                --batch_size 26 \
+                --num_workers 64
 ```
 
-- streamlit을 활용하여 Demo 실행
-    - 실행 시 <b>http://localhost:8501/</b> 로 Demo page가 실행됨
-```
-streamlit run infer.py
-```
 
-- Demo Page 실행 결과
-  - [원문링크](https://www.mk.co.kr/news/society/view/2020/12/1289300/?utm_source=naver&utm_medium=newsstand)
-  
-<img src="imgs/demo.png" alt="drawing" style="width:600px;"/>
+
+## 모델 저장
+   - kobart_summary 디렉토리에 모델 저장
+   - hparams: logs 하위 디렉토리에서 사용할 모델의 버전 골라 hparams.yaml set
+   - model_binary: logs 하위 디렉토리에서 사용할 체크포인트 골라 *.ckpt set
+   - 
+!python get_model_binary.py --hparams /home/alpaco/hw/KoBART-summarization/lightning_logs/version_60/hparams.yaml --model_binary checkpoint/last-v6.ckpt
+
+## 인퍼런스
+```
+import torch
+from transformers import PreTrainedTokenizerFast
+from transformers.models.bart import BartForConditionalGeneration
+
+model = BartForConditionalGeneration.from_pretrained('/home/alpaco/hw/KoBART-summarization/kobart_summary')
+tokenizer = PreTrainedTokenizerFast.from_pretrained('gogamza/kobart-base-v1')
+
+text = """
+운수 좋은날 현진건 새침하게 흐린 품이 눈이 올 듯하더니 눈은 아니 오고 얼다가 만 비가 추 적추적 내리는 날이었다. 이날이야말로 동소문 안에서 인력거꾼 노릇을 하는 김첨지에게는 오래간만 에도 닥친 운수 좋은 날이었다. 문안에 거기도 문밖은 아니지만 들어간답 시는 앞집 마마님을 전찻길까지 모셔다 드린 것을 비롯으로 행여나 손님이 있을까 하고 정류장에서 어정어정하며 내리는 사람 하나하나에게 거의 비는 듯한 눈결을 보내고 있다가 마침내 교원인 듯한 양복쟁이를 동광학교(東光 學校)까지 태워다 주기로 되었다. 첫 번에 삼십전, 둘째 번에 오십전 - 아침 댓바람에 그리 흉치 않은 일이 었다. 그야말로 재수가 옴불어서 근 열흘 동안 돈을 보지도 못한 김첨지는 십 전짜리 백동화 서 푼, 또는 다섯 푼이 찰깍 하고 손바닥에 떨어질 제 거의 눈물을 흘릴 만큼 기뻤었다. 더구나 이날 이때에 이 팔십 전이라는 돈이 그 에게 얼마나 유용한지 몰랐다. 컬컬한 목에 모주 한 잔도 적실 수 있거니와 그보다도 앓는 아내에게 설렁탕 한 그릇도 사다 줄 수 있음이다. 그의 아내가 기침으로 쿨룩거리기는 벌써 달포가 넘었다. 조밥도 굶기를 먹다시피 하는 형편이니 물론 약 한 첩 써본 일이 없다. 구태여 쓰려면 못 쓸 바도 아니로되 그는 병이란 놈에게 약을 주어 보내면 재미를 붙여서 자 꾸 온다는 자기의 신조(信)에 어디까지 충실하였다. 따라서 의사에게 보 인 적이 없으니 무슨 병인지는 알 수 없으되 반듯이 누워 가지고 일어나기 는 새로 모로도 못 눕는 걸 보면 중증은 중증인 듯. 병이 이대도록 심해지 기는 열흘전에 조밥을 먹고 체한 때문이다. 인력거꾼 김첨지가 오래간만에 돈 을 얻어서 좁쌀 한 뇌와 십 전짜리 나무 한 단을 사다 주었더니 김첨지의 말에 의지하면 그 오라질 년이 천방지축으로 냄비에 대고 끓였다.
+"""
+
+if text:
+    input_ids = tokenizer.encode(text)
+    input_ids = torch.tensor(input_ids)
+    input_ids = input_ids.unsqueeze(0)
+    output = model.generate(input_ids, eos_token_id=1, max_length=512, num_beams=4)
+    output = tokenizer.decode(output[0], skip_special_tokens=True)
+    print(output)
+```
 
 ## Reference
 - [KoBART](https://github.com/SKT-AI/KoBART)
-- [KoBART-chatbot](https://github.com/haven-jeon/KoBART-chatbot)
+- [KoBART-summarization](https://github.com/seujung/KoBART-summarization)
+
