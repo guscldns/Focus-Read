@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>텍스트 처리 페이지</title>
+    <style>
+        .word {
+            color: black;
+            transition: color 1s;
+        }
+        #upload_container{
+            margin: auto;
+            margin-top: 40px;
+            width: 1400px;
+            height: 800px;
+            background-color: rgb(255,255,255, 0.85);
+            display: flex;
+            justify-content: center;    
+            align-items: center;
+            border-radius: 20px;
+        }
+        body {
+            background-image: url('static/background.png');
+          }
+    </style>
+</head>
+<body>
+    
+    <div id='upload_container'>
+    <table>
+        <tr>
+            <td>
+    
+            <div style="border: 1px solid; margin:50px;background-color: rgb(255,255,255);">
+                {% for word in words %}
+                    <span class="word">{{ word }}</span> 
+                    {% if not loop.last %}<span> </span>{% endif %}  <!-- 단어 사이에 공백 추가 -->
+                {% endfor %}
+            </div>
+            </td>    
+        </tr>
+        
+        <tr>
+            <td>
+                <div style="margin:50px;">
+                    <label for="speed">속도 조절 (1-10):</label>
+                    <input type="number" name="speed" id="speed" min="1" max="10" value="5">
+                    <button id="startStopButton">시작/중지</button>        
+                </div>
+            </td>    
+        </tr>
+</table>
+    <div>
+        <form action="/summary" method="POST">
+            <input type = "text" id="user_sum" name="user_sum" style="width:500px; height:400px;margin:50px;"> 
+            <input type="submit" value="요약확인" style="margin:50px;">
+    </div>
+</div>
+    <script>
+        const words = document.querySelectorAll('.word');
+        let index = 0;
+        let intervalId = null;
+        let isRunning = false;
+
+        function changeColor() {
+            if (index < words.length) {
+                words[index].style.color = 'blue';
+                index++;
+            } else {
+                clearInterval(intervalId);
+                isRunning = false;
+            }
+        }
+
+        function startStop() {
+            if (isRunning) {
+                clearInterval(intervalId);
+                isRunning = false;
+            } else {
+                const speed = document.getElementById('speed').value;
+                intervalId = setInterval(changeColor, 1000 / speed);
+                isRunning = true;
+            }
+        }
+
+        document.getElementById('startStopButton').addEventListener('click', startStop);
+    </script>
+</body>
+</html>
