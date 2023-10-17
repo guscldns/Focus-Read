@@ -40,28 +40,29 @@ data   | explanation |
     
 
 + ### Google API
-    +  사용방법
-       ```c
-      from google.cloud import vision
-      os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "API_key.json"
-          # API 가져오기
-          client = vision.ImageAnnotatorClient()
-      
-          # 주석을 추가할 이미지 파일 이름
-          file_name = os.path.abspath(image_path)
-      
-          # 이미지 로드
-          with io.open(file_name, 'rb') as image_file:
-              content = image_file.read()
-      
-          image = vision.Image(content=content)
-      
-          # 이미지 OCR
-          response = client.document_text_detection(image=image)
-      
-          # 이미지 OCR 텍스트 전문
-          full_text = response.full_text_annotation.text
-       ```
+    +  사용방법   
+    ```c
+        from google.cloud import vision
+    
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "API_key.json"
+        # API 가져오기
+        client = vision.ImageAnnotatorClient()
+    
+        # 주석을 추가할 이미지 파일 이름
+        file_name = os.path.abspath(image_path)
+    
+        # 이미지 로드
+        with io.open(file_name, 'rb') as image_file:
+            content = image_file.read()
+    
+        image = vision.Image(content=content)
+    
+        # 이미지 OCR
+        response = client.document_text_detection(image=image)
+    
+        # 이미지 OCR 텍스트 전문
+        full_text = response.full_text_annotation.text
+      ```
 
 ---
 
@@ -70,21 +71,21 @@ data   | explanation |
   + How to train  
      ```c
     !CUDA_VISIBLE_DEVICES=0 python /home/alpaco/hw/KoBART-summarization/train.py --gradient_clip_val 1.0 \
-                    --train_file '/home/alpaco/hw/KoBART-summarization/data/train.tsv' \
-                    --test_file '/home/alpaco/hw/KoBART-summarization/data/test.tsv' \
-                    --max_epochs 1001 \
-                    --checkpoint checkpoint \
-                    --accelerator gpu \
-                    --num_gpus 1 \
-                    --batch_size 26 \
-                    --num_workers 4
+        --train_file '/home/alpaco/hw/KoBART-summarization/data/train.tsv' \
+        --test_file '/home/alpaco/hw/KoBART-summarization/data/test.tsv' \
+        --max_epochs 1001 \
+        --checkpoint checkpoint \
+        --accelerator gpu \
+        --num_gpus 1 \
+        --batch_size 26 \
+        --num_workers 4
     ```
 
 ## Keyword
 +  KeyBERT
    + How to used
        ```c
-       # BERT 모델 로드
+      # BERT 모델 로드
       model = BertModel.from_pretrained('skt/kobert-base-v1')
       
       # KeyBERT 모델 초기화
