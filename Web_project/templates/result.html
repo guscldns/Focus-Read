@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>요약 페이지</title>
+</head>
+<style>
+    #upload_container{
+        margin: auto;
+        margin-top: 40px;
+        width: 1400px;
+        height: 800px;
+        background-color: rgb(255,255,255, 0.85);
+        display: flex;
+        justify-content: center;    
+        align-items: center;
+        border-radius: 20px;
+    }
+    body {
+        background-image: url('static/background.png');
+      }
+
+</style>
+<body>
+
+    <div id='upload_container'>
+        <table style="background-color: rgb(255,255,255);border: 1px solid;">
+            <tr>
+                <td>
+                    <h2> AI의 요약 </h2>
+                    <a>{{result_summary}}</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h2> 사용자의 요약 </h2>
+                    <a>{{user_sum_context}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h2> 키워드 & 키워드 Score</h2>
+                    <a>{{keywords_result}}</a>
+                </td>
+            </tr>
+    </table>
+    </div>
+</body>
+</html>

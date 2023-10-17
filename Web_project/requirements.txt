@@ -1,0 +1,5 @@
+google-cloud-vision
+PyMuPDF
+transformers
+keybert
+kiwipiepy
