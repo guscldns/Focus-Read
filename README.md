@@ -24,7 +24,7 @@ data   | explanation |
 
 
 ## OCR 
-+ ### [clovaai/donut 모델 Fine-tuning](https://github.com/clovaai/donut)
++ ### [clovaai/donut](https://github.com/clovaai/donut) 모델 Fine-tuning
   + How to train   
     ```c
     ! python /home/alpaco/final_Project/donut/train.py --config /home/alpaco/final_Project/donut/config/train_cord.yaml \
@@ -68,7 +68,7 @@ data   | explanation |
 ---
 
 ## summary 
-+ ###  [KoBART-summarization 모델 Fine-tuning](https://github.com/seujung/KoBART-summarization )
++ ###  [KoBART-summarization](https://github.com/seujung/KoBART-summarization ) 모델 Fine-tuning
   + How to train  
      ```c
     !CUDA_VISIBLE_DEVICES=0 python /home/alpaco/hw/KoBART-summarization/train.py --gradient_clip_val 1.0 \
