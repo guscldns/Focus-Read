@@ -82,7 +82,7 @@ data   | explanation |
 
 ## Keyword
 +  KeyBERT
-  +  How to used
+   + How to used
        ```c
        # BERT 모델 로드
       model = BertModel.from_pretrained('skt/kobert-base-v1')
