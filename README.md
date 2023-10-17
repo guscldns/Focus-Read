@@ -62,7 +62,8 @@ data   | explanation |
     
         # 이미지 OCR 텍스트 전문
         full_text = response.full_text_annotation.text
-      ```
+    
+    ```
 
 ---
 
