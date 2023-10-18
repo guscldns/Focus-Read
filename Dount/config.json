@@ -1,0 +1,24 @@
+{
+  "_name_or_path": "naver-clova-ix/donut-base-finetuned-cord-v2",
+  "align_long_axis": false,
+  "architectures": [
+    "DonutModel"
+  ],
+  "decoder_layer": 4,
+  "encoder_layer": [
+    2,
+    2,
+    14,
+    2
+  ],
+  "input_size": [
+    1280,
+    960
+  ],
+  "max_length": 768,
+  "max_position_embeddings": 768,
+  "model_type": "donut",
+  "torch_dtype": "float32",
+  "transformers_version": "4.25.1",
+  "window_size": 10
+}
