@@ -104,7 +104,7 @@ data   | explanation |
 2. 모델이 한 번 볼수 있는 데이터 범위가 넓을 수록 학습이 더 잘된다
 3. batch_size는 클 수록 좋고 learning_rate를 처음부터 미세하게 주는 건 학습에 적합하지 않다
 4. 한 종류의 많은 데이터보다 여러가지 종류의 데이터를 보는 것이 일반화에 더 효과적이다
-5. 
+5. 모델이 클수록 적게 학습해도 성능이 나오지만 출력시 속도를 체크 후 자신의 Task에 맞는지 확인이 필요하다. 
 ---
 <p align="center">
   <img src="https://github.com/guscldns/Focus-Read/assets/130722839/fb47ecf9-528c-4ed6-91be-b651a42ad510">
