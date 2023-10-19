@@ -18,6 +18,7 @@ clovaai/donut | Y | N |
 data   | explanation |
 -----------|----------|
 [요약문 및 레포트 생성 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=582) | 다양한 한국어 원문 데이터로부터 정제된 추출 및 생성 요약문을 도출하고 검증한 한국어 문서요약 AI 데이터셋  |
+[저작권만료 어문데이터](https://gongu.copyright.or.kr/gongu/wrt/wrtCl/listWrtText.do?menuNo=200019&pageIndex=1&sortSe=date&licenseCd=97&searchWrd=&pageUnit=12) | 저작권 권리처리가 된 콘텐츠를 공유하는 공유마당에서 저작권이 만료된 어문데이터 PDF | 
 [한국어기초사전](https://krdict.korean.go.kr/download/downloadPopup) |  국립국어원의 한국어 학습용 웹 사전  |
 자체 제작 데이터  |  생성형 AI 서비스들을 이용하여 요약문 생성 후 검수 (총 300개)|
 ***
@@ -97,6 +98,13 @@ data   | explanation |
       # 키워드 추출
       keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words=None, top_n=10)
        ```
+---
+## 배운점
+1. 장문 Task일 경우 많은 데이터와 좋은 성능의 GPU에 따라 학습성능이 달라진다
+2. 모델이 한 번 볼수 있는 데이터 범위가 넓을 수록 학습이 더 잘된다
+3. batch_size는 클 수록 좋고 learning_rate를 처음부터 미세하게 주는 건 학습에 적합하지 않다
+4. 한 종류의 많은 데이터보다 여러가지 종류의 데이터를 보는 것이 일반화에 더 효과적이다
+5. 
 ---
 <p align="center">
   <img src="https://github.com/guscldns/Focus-Read/assets/130722839/fb47ecf9-528c-4ed6-91be-b651a42ad510">
