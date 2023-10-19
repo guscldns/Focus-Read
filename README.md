@@ -36,8 +36,10 @@ data   | explanation |
     ```
 
   +  경로는 자신의 경로로 변경 필수
-  +  참고) https://github.com/clovaai/donut
-    
+  +  레퍼런스
+    + https://github.com/clovaai/donut
+    + [OCR-free Document Understanding Transformer](https://arxiv.org/abs/2111.15664)
+    + 1020 학습한 모델: https://drive.google.com/file/d/151luqrFE7TqRaEOJS0GucITZAlduobsk/view?usp=share_link
 
 + ### Google API
     +  사용방법   
