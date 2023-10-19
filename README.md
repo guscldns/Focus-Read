@@ -97,7 +97,7 @@ data   | explanation |
       # 키워드 추출
       keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words=None, top_n=10)
        ```
-
+---
 <p align="center">
   <img src="https://github.com/guscldns/Focus-Read/assets/130722839/fb47ecf9-528c-4ed6-91be-b651a42ad510">
 </p>
