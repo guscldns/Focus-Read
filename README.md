@@ -16,7 +16,7 @@ clovaai/donut | Y | N |
 
 ## 사용한 데이터
 data   | explanation |
---------|----------|
+---------|----------|
 [요약문 및 레포트 생성 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=582) | 다양한 한국어 원문 데이터로부터 정제된 추출 및 생성 요약문을 도출하고 검증한 한국어 문서요약 AI 데이터셋  |
 [한국어기초사전](https://krdict.korean.go.kr/download/downloadPopup) |  국립국어원의 한국어 학습용 웹 사전  |
 자체 제작 데이터  |  생성형 AI 서비스들을 이용하여 요약문 생성 후 검수 (총 300개)|
